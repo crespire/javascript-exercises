@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Ex</title>
+</head>
+<body>
+    <p>🎈</p>
+
+    <!--
+        From: https://eloquentjavascript.net/15_event.html
+
+        Balloon
+
+        Write a page that displays a balloon (using the balloon emoji, 🎈). When you press the up arrow,
+        it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate
+        (shrink) 10 percent. You can control the size of text (emoji are text) by setting the font-size
+        CSS property (style.fontSize) on its parent element. Remember to include a unit in the value—for
+        example, pixels (10px).
+
+        The key names of the arrow keys are "ArrowUp" and "ArrowDown". Make sure the keys change only the
+        balloon, without scrolling the page.
+
+        When that works, add a feature where, if you blow up the balloon past a certain size, it explodes.
+        In this case, exploding means that it is replaced with an 💥 emoji, and the event handler is
+        removed (so that you can’t inflate or deflate the explosion).
+        
+
+    -->
+    
+    <script>
+        window.addEventListener('keydown', changeSize);
+        
+        let pixelsAdjust = 0;
+        let pixels = 10;
+        let pixelsFinal;
+        let balloon = document.querySelector('p');
+         
+        function changeSize(event) {
+          let keyPressed = event.key;   
+          event.stopPropagation();
+          
+          if (keyPressed === 'ArrowUp') {
+            // console.log('Bigger');
+            pixelsAdjust += 10;
+          } else if (keyPressed === 'ArrowDown') {
+            // console.log('Smaller');
+            pixelsAdjust -= 10;
+          }
+          
+          pixelsFinal = pixels + pixelsAdjust;
+          // console.log(`Current Value: ${pixels}`);
+          // console.log(`Adjust by: ${pixelsAdjust}`);
+          // console.log(`Adjusted final: ${pixels+pixelsAdjust}`);    
+              
+          if (pixelsFinal > 100) {
+            balloon.style.cssText = `font-size: 100px;`;
+            balloon.textContent = "💥";
+            window.removeEventListener('keydown', changeSize);
+          } else if (pixelsFinal <= 0) {
+            balloon.style.cssText = `font-size: 10px;`;
+            // console.log("Balloon can't get smaller!");
+            pixelsAdjust = 0;
+            pixels = 10;
+          } else {    
+              balloon.style.cssText = `font-size: ${pixelsFinal}px;`;
+          }
+          
+        }  
+      </script>
+</body>
+
+
+</html>
