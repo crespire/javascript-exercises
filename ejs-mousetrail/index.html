@@ -19,24 +19,24 @@
 </head>
 <body>
     <script>
-        let trailsMax = 12;
+        let trailsMax = 10;
         let trailDivs = new Array();
         let mainContainer = document.querySelector('body');
 
-        for (let i = 0; i < trailsMax; i++) {
+        function mouseTrail(event) {
+            
             let addedDiv = document.createElement('div');
             addedDiv.classList.add('trail');
-            trailDivs.push(addedDiv);
-            mainContainer.appendChild(addedDiv);
-        }
-
-        let currentTrail = 0;
-        function mouseTrail(event) {
-            trailDivs[currentTrail].style.left = `${event.pageX}px`;
-            trailDivs[currentTrail].style.top = `${event.pageY}px`;
-            console.log(`Current: ${currentTrail}, Length: ${trailsMax}, Next: ${(currentTrail+1) % trailDivs.length}`);
-            currentTrail = (currentTrail + 1) % trailsMax;
-        };
+            if (trailDivs.length <= trailsMax) {
+                trailDivs.push(addedDiv);
+            }
+            
+            trailDivs.forEach( div => {
+                let leftPos = event.windowX;
+                let topPos = event.windowY;
+                div.style.cssText = `left: ${leftPos}px; top : ${topPos}px;`;
+                mainContainer.appendChild(div);
+        });     
                 
         window.addEventListener('mousemove', mouseTrail);
 
