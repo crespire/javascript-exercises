@@ -15,11 +15,31 @@
         }
       </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mousetrail</title>
 </head>
 <body>
     <script>
-        // Your code here.
-      </script>
+        let trailsMax = 12;
+        let trailDivs = new Array();
+        let mainContainer = document.querySelector('body');
+
+        for (let i = 0; i < trailsMax; i++) {
+            let addedDiv = document.createElement('div');
+            addedDiv.classList.add('trail');
+            trailDivs.push(addedDiv);
+            mainContainer.appendChild(addedDiv);
+        }
+
+        let currentTrail = 0;
+        function mouseTrail(event) {
+            trailDivs[currentTrail].style.left = `${event.pageX}px`;
+            trailDivs[currentTrail].style.top = `${event.pageY}px`;
+            console.log(`Current: ${currentTrail}, Length: ${trailsMax}, Next: ${(currentTrail+1) % trailDivs.length}`);
+            currentTrail = (currentTrail + 1) % trailsMax;
+        };
+                
+        window.addEventListener('mousemove', mouseTrail);
+
+    </script>
 </body>
 </html>
