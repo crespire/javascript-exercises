@@ -30,16 +30,76 @@
     -->
     
     <tab-panel>
-        <div data-tabname="one">Tab one</div>
-        <div data-tabname="two">Tab two</div>
-        <div data-tabname="three">Tab three</div>
-      </tab-panel>
+      <div data-tabname="one">Tab one</div>
+      <div data-tabname="two">Tab two</div>
+      <div data-tabname="three">Tab three</div>
+    </tab-panel>
 
       <script>
-        function asTabs(node) {
-          // Your code here.
+        /**
+         * First, build a function that builds the tab-panel element as a tabbed interface.
+         * 
+         * Second, build a function that builds a list of buttons once a tab is selected.
+         * 
+         * Listen for an on-focus event that matches our div with the tabname.
+         * 
+         * Once we detect such an event, call the event handler that will render the button
+         * 
+         */
+
+
+        function asTabs(node) { // Function to render a DOM node as tabs. This sets up the tabbed display.
+
+          // Get tabs from tab-panel children
+          let tabs = Array.from(node.children);
+
+          // For each tab, build a list of 10 buttons.
+          tabs.forEach ( tab => {
+            let listContainer = document.createElement('ul');
+            listContainer.style.cssText = 'display: none;'; // Set tabbed button list to not display. We will display one using the event handler.
+
+            for (let i = 0; i < 3; i++) {
+              let listItem = document.createElement('li');
+              let newButton = document.createElement('button');
+              newButton.textContent = `${tab.innerText} - Button ${i + 1}`;
+              listItem.appendChild(newButton);
+              listContainer.appendChild(listItem);
+            }
+
+            tab.appendChild(listContainer);
+
+          });
+
+          return tabs;
         }
-        asTabs(document.querySelector("tab-panel"));
+
+        function showTab(event) { // Event handler function to show a tab's content
+          // Hide all tab list elements
+          let tabbedNav = Array.from(event.target.parentElement.children);
+          tabbedNav.forEach ( tab => {
+            let hideList = tab.firstElementChild;
+            /** just needed to debug what was happening.
+            console.dir(tab)
+            console.dir(hideList);
+            console.dir(`-------\n`);
+            */
+            hideList.style.cssText = 'display: none;';
+          });
+
+          // Select the current tab's list element and show it.
+          let listContainer = event.target.firstElementChild;
+          listContainer.style.cssText = "display: default;";
+          
+        }
+
+        // Build tabs
+        let tabbedNav = asTabs(document.querySelector("tab-panel"));
+
+        // Add event listners for each tab parent
+        tabbedNav.forEach( tab => {
+          tab.addEventListener('click', showTab);
+        });
+
       </script>
 </body>
 </html>
