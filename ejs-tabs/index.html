@@ -100,6 +100,12 @@
           tab.addEventListener('click', showTab);
         });
 
+        // Start the page with tab one open
+        let startEvent = new MouseEvent('click'); // Create a mouse click event
+        let startTab = document.querySelector("div[data-tabname='one']"); // Select the first tab
+        startTab.dispatchEvent(startEvent); // Send the mouseclick event
+        
+
       </script>
 </body>
 </html>
